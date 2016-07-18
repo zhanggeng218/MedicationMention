@@ -173,17 +173,8 @@ def processBatchFiles(original_folder_path, XML_folder_path, output_folder_path,
             o.close()
 
 # TODO: clean the code for this function!
-def catEntities(xmlfname, txtfname):
+def catEntities(combinedentities, txtfname):
     textfile = open(txtfname, "r").read()
-    medications, sentences, doses = travelTrough(xmlfname, txtfname)
-
-    addSentenceNumber_new(sentences, medications, doses)
-
-    combinedentities = combinedEntities(medications, doses)
-    matches = findmatch(combinedentities, sentence_threshold=1)
-    output = fillinEntityName(matches, combinedentities)
-
-    # pprint.pprint(combinedentities)
 
     newentities = {}
     entity_keys = list(combinedentities.keys())
@@ -261,7 +252,7 @@ def debugOneFile(xmlfname, txtfname):
     addSentenceNumber_new(sentences, medications, doses)
 
     combinedentities = combinedEntities(medications, doses)
-    concatenated_entities = catEntities(xmlfname, txtfname)
+    concatenated_entities = catEntities(combinedentities, txtfname)
     matches = findmatch(concatenated_entities, sentence_threshold=1)
     output = fillinEntityName(matches, concatenated_entities)
     pprint.pprint(output)
@@ -269,9 +260,9 @@ def debugOneFile(xmlfname, txtfname):
 
 
 # debug with one file
-# filename = "../Resources/MedicationMention/XML_Files/n_241468.xml"
-# textname = "../Resources/MedicationMention/Original_Files/n_241468"
-# debugOneFile(filename, textname)
+filename = "../Resources/MedicationMention/XML_Files/n_241468.xml"
+textname = "../Resources/MedicationMention/Original_Files/n_241468"
+debugOneFile(filename, textname)
 
 # process all
 # xmlfolder = os.getcwd() + "../Resources/MedicationMention/XML_Files"
