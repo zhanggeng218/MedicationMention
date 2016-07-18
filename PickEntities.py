@@ -5,10 +5,8 @@ import pprint
 import os
 import re
 
-# import re
-# import codecs
-# import json
-# from collections import defaultdict
+# TODO:
+# 1. Combine same drug entities in the form of "drug_A (alias_for_A)"
 
 # find medications, and doses
 # also find sentence with location indices
@@ -189,14 +187,14 @@ def debugOneFile(xmlfname, txtfname):
 
 
 # debug with one file
-filename = "./XML_Files/n_241468.xml"
-textname = "./Original_Files/n_241468"
+filename = "../Resources/MedicationMention/XML_Files/n_241468.xml"
+textname = "../Resources/MedicationMention/Original_Files/n_241468"
 debugOneFile(filename, textname)
 
 # process all
-# xmlfolder = os.getcwd() + "/XML_Files"
-# orifolder = os.getcwd() + "/Original_Files"
-# outfolder = os.getcwd() + "/Output_Files"
+# xmlfolder = os.getcwd() + "../Resources/MedicationMention/XML_Files"
+# orifolder = os.getcwd() + "../Resources/MedicationMention/Original_Files"
+# outfolder = os.getcwd() + "../Resources/MedicationMention/Output_Files"
 # out_prefix = "DrugMentions_"
 # processBatchFiles(orifolder, xmlfolder, outfolder, out_prefix)
 
