@@ -45,29 +45,45 @@ def catEntities(xmlfname, txtfname):
                 contains_left_parentheses = re.compile(r'\(')
                 m1 = contains_left_parentheses.search(textfile[cur_end : next_beg])
 
+                contains_right_parentheses = re.compile(r'\)')
+
                 # if the same medications, combine them
                 # TODO: also see if there is need to close any parentheses
                 if m == None:
                     # if the previous two are also the same, no need to create a new entry in newentities
                     # only do the combining
                     if previous_same:
-
                         # for closing parentheses
-                        # if m1 != None:
+                        if m1 != None:
+                            m2 = contains_right_parentheses.search(textfile[newentities[previous_ind]['beg'] : ])
+                            end = m2.start() + newentities[previous_ind]['beg'] + 1
+                        else:
+                            m3 = contains_left_parentheses.search(textfile[cur_end : ])
+                            m4 = contains_right_parentheses.search(textfile[cur_end : ])
+                            if (m3 == None and m4 != None) or (m4 != None and m4 != None and m3.start() > m4.start()):
+                                end = m4.start() + cur_end + 1
+                                pprint.pprint(textfile[newentities[previous_ind]['beg'] : end])
+                            else:
+                                end = next_end
 
-                        newentities[previous_ind]['content'] = textfile[newentities[previous_ind]['beg'] : next_end]
-                        newentities[previous_ind]['end'] = next_end
-                        covered_position = next_end
+                        newentities[previous_ind]['content'] = textfile[newentities[previous_ind]['beg'] : end]
+                        newentities[previous_ind]['end'] = end
+                        covered_position = end
+
                     else:
                         # for closing parentheses
-                        # if m1 != None:
+                        if m1 != None:
+                            m2 = contains_right_parentheses.search(textfile[cur_beg : ])
+                            end = m2.start() + cur_beg + 1
+                        else:
+                            end = next_end
 
                         newentities[cur_beg] = combinedentities[cur_beg]
-                        newentities[cur_beg]['content'] = textfile[cur_beg : next_end]
-                        newentities[cur_beg]['end'] = next_end
+                        newentities[cur_beg]['content'] = textfile[cur_beg : end]
+                        newentities[cur_beg]['end'] = end
                         previous_same = True
                         previous_ind = cur_beg
-                        covered_position = next_end
+                        covered_position = end
 
                 # if not the same, add the entity to newentities, set previous_same to False
                 else:
@@ -82,10 +98,6 @@ def catEntities(xmlfname, txtfname):
                 previous_same = False
         elif cur_beg >= covered_position and not previous_same:
             newentities[cur_beg] = combinedentities[cur_beg]
-
-
-    pprint.pprint(newentities)
-
 
 
 filename = "../Resources/MedicationMention/XML_Files/n_241468.xml"
