@@ -156,6 +156,7 @@ def fillinEntityName(matches, combinedentities):
 
 def processBatchFiles(original_folder_path, XML_folder_path, output_folder_path, out_prefix):
     for fname in os.listdir(XML_folder_path):
+        print(fname)
         if "n_" in fname:
             xml_name = XML_folder_path + "/" + fname
             ori_name = original_folder_path + "/" + fname.strip(".xml")
@@ -288,6 +289,6 @@ def debugOneFile(xmlfname, txtfname):
 xmlfolder = "../Resources/MedicationMention/XML_Files"
 orifolder =  "../Resources/MedicationMention/Original_Files"
 outfolder = "../Resources/MedicationMention/Output_Files"
-out_prefix = "DrugMentions_"
+out_prefix = "Extracted_"
 processBatchFiles(orifolder, xmlfolder, outfolder, out_prefix)
 
